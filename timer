@@ -1,0 +1,44 @@
+#!/bin/bash
+
+while getopts 'n:' OPTION; do
+  case "$OPTION" in
+    n)
+      n="$OPTARG"
+      ;;
+    ?)
+      echo "script usage: $(basename \$0) [-n number of days]" >&2
+      exit 1
+      ;;
+  esac
+done
+shift "$(($OPTIND -1))"
+
+
+
+total_time=0
+
+for i in $(seq $n); do
+    if ((${#i} < 2)); then 
+        i="0$i"
+    fi
+    dir="Day$i/"
+
+
+    cd "$dir"
+
+    for j in $(seq 2); do
+
+        start=$(date +%s%N | cut -b1-13)
+        test=$(python3 "part$j.py")            
+        end=$(date +%s%N | cut -b1-13)
+        
+        tijd=$(($end-$start))
+        echo "Day $i, part $j took: $tijd nanoseconds"
+        total_time=$(($tijd+$total_time))
+    done 
+    cd ..  
+done
+
+end_time=$SECONDS
+
+echo "The first $n days took: $total_time nanoseconds"

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for i in $(seq 25); do
+    if ((${#i} < 2)); then 
+        i="0$i"
+    fi
+    dir="Day$i"
+    mkdir $dir
+    cp template.py "$dir/part1.py"
+    cp template.py "$dir/part2.py"
+    touch input.txt
+
+done
