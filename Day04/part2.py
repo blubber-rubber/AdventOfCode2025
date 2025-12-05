@@ -1,0 +1,39 @@
+import time
+
+start_time = time.time()
+
+with open('input.txt') as f:
+    grid = [line.rstrip('\n') for line in f.readlines()]
+
+grid = [[c for c in line] for line in grid]
+
+dirs = [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1)]
+
+spots = []
+first = True
+total = 0
+while first or spots:
+    spots = []
+    first = False
+    for y, line in enumerate(grid):
+        for x, c in enumerate(line):
+            aantal = 0
+            if c == '@':
+                for dy, dx in dirs:
+                    nx = x + dx
+                    ny = y + dy
+
+                    if 0 <= nx < len(line) and 0 <= ny < len(grid):
+                        aantal += grid[ny][nx] == '.'
+                    else:
+                        aantal += 1
+
+                if aantal > 4:
+                    spots.append((y, x))
+
+    total += len(spots)
+    for y, x in spots:
+        grid[y][x] = '.'
+
+print(total)
+print(time.time() - start_time)
