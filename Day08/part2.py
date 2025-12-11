@@ -69,8 +69,10 @@ distances.sort()
 
 N_POINTS = len(points)
 
+r2 = points[0].get_root()
+
 d_index = -1
-while points[0].get_root().n_children +1< N_POINTS:
+while r2.n_children + 1 < N_POINTS:
     d_index += 1
     d, p1, p2 = distances[d_index]
     r1 = p1.get_root()
